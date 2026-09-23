@@ -1,0 +1,21 @@
+[package]
+name = "flytable-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "FlyTable CLI for development and debugging: offline self-play and seat bus matches with certified plugin seats"
+
+[[bin]]
+name = "flytable"
+path = "src/main.rs"
+
+[dependencies]
+flytable-core = { workspace = true }
+flytable-event = { workspace = true }
+flytable-table = { workspace = true }
+flytable-seat = { workspace = true }
+# run-match uses the runtime seat bus; selfplay is rules only and does not need its process support.
+flytable-runtime = { workspace = true }
+clap = { workspace = true }
+serde_json = { workspace = true }

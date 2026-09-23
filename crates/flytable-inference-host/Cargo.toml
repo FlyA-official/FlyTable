@@ -1,0 +1,21 @@
+[package]
+name = "flytable-inference-host"
+version.workspace = true
+# Pinned to edition 2021 (the other crates use 2024) so the edition change does not alter behavior.
+edition = "2021"
+license.workspace = true
+rust-version.workspace = true
+description = "FlyTable inference host: runs external model and translator subprocesses, discovers and certifies third-party plugins"
+
+[dependencies]
+flytable-core = { workspace = true }
+flytable-event = { workspace = true }
+flytable-table = { workspace = true }
+flytable-seat = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+toml = { workspace = true }
+time = { workspace = true }
+reqwest = { workspace = true }

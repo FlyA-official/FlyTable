@@ -1,0 +1,16 @@
+[package]
+name = "flytable-table"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "FlyTable game core: wall, dealing, progression, adjudication, settlement and seat views"
+
+[dependencies]
+flytable-core = { workspace = true }
+flytable-event = { workspace = true }
+flytable-maintainer = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+rand = { workspace = true }
+rand_chacha = { workspace = true }

@@ -1,0 +1,20 @@
+# Rust
+/target
+**/*.rs.bk
+*.pdb
+
+# Local models and artifacts
+.local/
+*.onnx
+*.onnx.meta.json
+
+# Environment and editors
+.env
+.env.*
+.DS_Store
+.idea/
+.vscode/
+
+# Logs and run output
+*.log
+/runs

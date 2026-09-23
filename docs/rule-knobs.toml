@@ -1,0 +1,304 @@
+# Rule knob registry: values and evidence for each field of `RiichiRuleProfile`.
+#
+# Fields
+#   knob           field name in `RiichiRuleProfile` (see flytable-core/src/rules.rs)
+#   summary        what the knob controls
+#   tenhou         Tenhou value
+#   tenhou_grade   evidence grade for the Tenhou value
+#   majsoul        Mahjong Soul value (as implemented)
+#   majsoul_grade  evidence grade for the Mahjong Soul value
+#   discriminator  the game situation that tells the candidate values apart
+#
+# Evidence grades
+#   measured  confirmed against recorded games
+#   official  stated in official documentation, not yet observed in recorded games
+#   inferred  derived from rule text or analogy, with no observed instance
+#
+# A knob whose discriminating situation never occurs cannot be confirmed by replay,
+# however many games are checked, so it stays at official or inferred.
+
+schema = "flytable-rule-knobs-v1"
+
+# Tile set and starting conditions
+
+[[knob]]
+knob = "open_tanyao"
+summary = "Tanyao counts with an open hand (kuitan)"
+tenhou = "on"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "An open hand whose only yaku is tanyao: with the knob off it has no yaku and cannot win"
+
+[[knob]]
+knob = "red_fives_4p"
+summary = "Red fives in the standard 4-player wall"
+tenhou = "one each of 5m / 5p / 5s"
+tenhou_grade = "measured"
+majsoul = "one each"
+majsoul_grade = "official"
+discriminator = "Physical wall composition; the red five count changes the observable tile set"
+
+[[knob]]
+knob = "red_fives_3p"
+summary = "Red fives in the standard 3-player wall (no 2m-8m)"
+tenhou = "one each of 5p / 5s"
+tenhou_grade = "measured"
+majsoul = "one each"
+majsoul_grade = "official"
+discriminator = "As above; a red 5m must also be rejected in 3-player"
+
+[[knob]]
+knob = "start_score_4p"
+summary = "Starting score, 4-player"
+tenhou = "25000"
+tenhou_grade = "measured"
+majsoul = "25000"
+majsoul_grade = "official"
+discriminator = "Scores at the start of the first hand"
+
+[[knob]]
+knob = "start_score_3p"
+summary = "Starting score, 3-player"
+tenhou = "35000"
+tenhou_grade = "measured"
+majsoul = "35000"
+majsoul_grade = "official"
+discriminator = "Scores at the start of the first hand"
+
+[[knob]]
+knob = "target_score_4p"
+summary = "Target score, 4-player (extension and game end threshold)"
+tenhou = "30000"
+tenhou_grade = "measured"
+majsoul = "30000"
+majsoul_grade = "official"
+discriminator = "At the end of East 4 a player is between the start and the target: the game ends if someone reached the target, otherwise it extends into South"
+
+[[knob]]
+knob = "target_score_3p"
+summary = "Target score, 3-player"
+tenhou = "40000"
+tenhou_grade = "measured"
+majsoul = "40000"
+majsoul_grade = "official"
+discriminator = "As above"
+
+# Match progression
+
+[[knob]]
+knob = "bust_below_zero"
+summary = "The game ends when a score drops below zero"
+tenhou = "on"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "A hand after which some score is below 0"
+
+[[knob]]
+knob = "max_extra_bakaze"
+summary = "Maximum extra rounds after the scheduled last round"
+tenhou = "1"
+tenhou_grade = "measured"
+majsoul = "1"
+majsoul_grade = "official"
+discriminator = "Nobody reached the target after South 4: whether West is played, and whether West 4 ends the game"
+
+[[knob]]
+knob = "agariyame"
+summary = "From the scheduled last hand on, a winning dealer in first place at or above the target may end the game"
+tenhou = "on"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "The dealer wins the last hand in first place at or above the target. Tenhou introduced this rule later, so older games need a historical profile snapshot with agariyame = false"
+
+[[knob]]
+knob = "tenpaiyame"
+summary = "Same as agariyame, for a dealer tenpai at an exhaustive draw"
+tenhou = "on"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "The dealer is tenpai at an exhaustive draw in the last hand, in first place at or above the target"
+
+# Legality
+
+[[knob]]
+knob = "kuikae_forbidden"
+summary = "Swap calling (same tile and suji kuikae) is forbidden"
+tenhou = "forbidden"
+tenhou_grade = "measured"
+majsoul = "forbidden"
+majsoul_grade = "official"
+discriminator = "Discarding the called tile or its suji right after a chi or pon"
+
+[[knob]]
+knob = "riichi_ankan"
+summary = "Restriction on closed kan after riichi"
+tenhou = "only with the drawn fourth tile, and the set of waits must not change"
+tenhou_grade = "measured"
+majsoul = "same"
+majsoul_grade = "official"
+discriminator = "Drawing the fourth copy after riichi: whether the waits are the same before and after the kan. Tenhou allows a kan of a tile that is itself a wait"
+
+[[knob]]
+knob = "no_draw_riichi"
+summary = "Riichi may be declared with no draws left (fewer tiles in the wall than players)"
+tenhou = "forbidden"
+tenhou_grade = "official"
+majsoul = "forbidden (requires at least as many wall tiles as players)"
+majsoul_grade = "measured"
+discriminator = "Whether riichi is offered when fewer wall tiles remain than players. Tenhou's rules require 1000+ points and a remaining draw; match logs do not record the offered options, so the rule text is used"
+
+# Settlement
+
+[[knob]]
+knob = "kiriage_mangan"
+summary = "4 han 30 fu and 3 han 60 fu round up to mangan"
+tenhou = "off"
+tenhou_grade = "measured"
+majsoul = "off"
+majsoul_grade = "measured"
+discriminator = "A win of exactly 4 han 30 fu or 3 han 60 fu: with the knob on it pays mangan"
+
+[[knob]]
+knob = "kazoe_limit"
+summary = "Cap for counted yakuman"
+tenhou = "yakuman"
+tenhou_grade = "measured"
+majsoul = "yakuman"
+majsoul_grade = "official"
+discriminator = "A win with 13 or more han from regular yaku and dora"
+
+[[knob]]
+knob = "double_special_yakuman"
+summary = "13-sided kokushi, suuankou tanki, junsei chuuren and daisuushi score double yakuman"
+tenhou = "no"
+tenhou_grade = "measured"
+majsoul = "yes"
+majsoul_grade = "official"
+discriminator = "A win with one of these four shapes"
+
+[[knob]]
+knob = "pao"
+summary = "Liability payment for daisangen and daisuushi"
+tenhou = "on"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "The player who fed the third dragon or fourth wind set, followed by that hand winning. On tsumo the liable player pays the full tsumo total (including 3-player tsumo loss), not the ron value"
+
+[[knob]]
+knob = "nuki_dora_han"
+summary = "Han added by each nukidora"
+tenhou = "1"
+tenhou_grade = "measured"
+majsoul = "1"
+majsoul_grade = "official"
+discriminator = "Han of a 3-player win after nukidora"
+
+# Multiple wins and abortive draws
+
+[[knob]]
+knob = "ron_resolution"
+summary = "Resolution of multiple ron on one discard"
+tenhou = "double ron; triple ron is an abortive draw"
+tenhou_grade = "measured"
+majsoul = "multiple ron (triple ron also wins)"
+majsoul_grade = "measured"
+discriminator = "Two or three players can ron the same discard"
+
+[[knob]]
+knob = "kokushi_ankan_ron"
+summary = "Kokushi may rob a closed kan"
+tenhou = "no"
+tenhou_grade = "official"
+majsoul = "yes"
+majsoul_grade = "official"
+discriminator = "A kokushi wait on a tile another player closed-kans. Under Tenhou rules the window is always empty, so recorded games can never show a missed rob; the value stays at official"
+
+[[knob]]
+knob = "nukidora_ron"
+summary = "A nukidora may be robbed with ron (3-player)"
+tenhou = "yes"
+tenhou_grade = "measured"
+majsoul = "unknown"
+majsoul_grade = "inferred"
+discriminator = "A player waiting on North when another player declares nukidora"
+
+[[knob]]
+knob = "nagashi_mangan"
+summary = "Nagashi mangan"
+tenhou = "on (replaces the tenpai payments; still valid if the player called)"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "At an exhaustive draw, a player's discards are all terminals and honors and none were called"
+
+[[knob]]
+knob = "suukaikan"
+summary = "Four-kan abortive draw"
+tenhou = "on (four kans held by at least two players)"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "Nobody wins the discard after the fourth kan takes effect. A closed kan takes effect when declared; an open or added kan once its delayed dora is revealed"
+
+[[knob]]
+knob = "suucha_riichi"
+summary = "Four-riichi abortive draw (4-player only)"
+tenhou = "on"
+tenhou_grade = "measured"
+majsoul = "on"
+majsoul_grade = "official"
+discriminator = "Nobody wins the fourth player's riichi declaration tile. The riichi stick is taken before the draw"
+
+# Timing
+
+[[knob]]
+knob = "kan_dora_timing"
+summary = "When kan dora indicators are revealed"
+tenhou = "closed kan immediately; open and added kans after the replacement draw"
+tenhou_grade = "measured"
+majsoul = "closed kan immediately; open and added kans after the replacement draw"
+majsoul_grade = "measured"
+discriminator = "When the new indicator appears between a kan and the next discard. With delayed reveal, a player robbing the kan does not get that indicator"
+
+[[knob]]
+knob = "kan_dora_pending_flush_at_declaration"
+summary = "When a pending kan dora is revealed on consecutive kans"
+tenhou = "after the next kan or nukidora robbing window (not revealed if robbed)"
+tenhou_grade = "measured"
+majsoul = "at the next kan or nukidora declaration (a robbing player gets it)"
+majsoul_grade = "measured"
+discriminator = "The two values only differ when the second declaration of consecutive kans is robbed"
+
+[[knob]]
+knob = "suukaikan_on_kita_declaration"
+summary = "In 3-player, a nukidora after the fourth kan triggers the four-kan draw"
+tenhou = "yes: the hand ends when the robbing window passes, without a replacement draw"
+tenhou_grade = "measured"
+majsoul = "no: the replacement is drawn and a rinshan tsumo still scores"
+majsoul_grade = "measured"
+discriminator = "After the fourth kan, the kan player declares nukidora and nobody robs it"
+
+# Not modelled as knobs
+
+[[unmodeled]]
+name = "Rank points (uma / oka)"
+reason = "A ranking policy rather than a game rule; values vary by room on some platforms"
+placement = "MatchSettlementProfile (match log settlement)"
+tenhou_measured = "4P: (score - 30000) / 1000 + [+20, +10, -10, -20], oka 20 to first; 3P: (score - 40000) / 1000 + [+20, 0, -20], oka 15 to first; ties by seating order"
+
+[[unmodeled]]
+name = "Double-wind pair fu"
+reason = "Same on all three platforms"
+placement = "Fixed implementation (Tenhou behavior)"
+tenhou_measured = "See the fu calculation in flytable-core"
+
+[[unmodeled]]
+name = "Ippatsu / ura dora / kan ura / noten declaration / renchan variants"
+reason = "Same on all three platforms in standard rooms; only custom rooms need them"
+placement = "No knobs yet"
+tenhou_measured = "Ippatsu, ura dora and kan ura are all on"

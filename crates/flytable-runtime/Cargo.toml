@@ -1,0 +1,21 @@
+[package]
+name = "flytable-runtime"
+# Edition 2021 like flytable-inference-host, which it builds on.
+edition = "2021"
+version.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "FlyTable runtime: seat bus (SeatAgent) and match host (MatchHost)"
+
+[dependencies]
+flytable-core = { workspace = true }
+flytable-event = { workspace = true }
+flytable-table = { workspace = true }
+flytable-seat = { workspace = true }
+# The match log builder uses the projector index map; protocol only depends on core and event, so there is no cycle.
+flytable-protocol = { workspace = true }
+flytable-inference-host = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+sha2 = { workspace = true }

@@ -1,0 +1,12 @@
+[package]
+name = "flytable-seat"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "FlyTable seat decision interface, inference gate and built-in tsumogiri seat"
+
+[dependencies]
+flytable-event = { workspace = true }
+flytable-protocol = { workspace = true }
+flytable-table = { workspace = true }

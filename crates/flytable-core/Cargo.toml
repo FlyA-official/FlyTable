@@ -1,0 +1,11 @@
+[package]
+name = "flytable-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "FlyTable rules core: tiles, hands, melds, shanten, win detection, yaku and scoring (4p and 3p)"
+
+[dependencies]
+serde = { workspace = true }
+thiserror = { workspace = true }
