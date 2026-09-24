@@ -1,6 +1,12 @@
 # FlyTable
 
-FlyTable is a rules kernel and authoritative table engine for Japanese Riichi Mahjong, covering both four-player and three-player (sanma) games. It is written in Rust and developed by Nashout as the rules core of FlyAgent and other FlyA products.
+FlyTable is a rules kernel and authoritative table engine for Japanese Riichi Mahjong, covering both four-player and three-player (sanma) games. It is written in Rust and developed by Nashout.
+
+FlyTable is the shared module behind FlyAgent, FlyMahjong and the FlyA model series:
+
+- **FlyAgent** uses it to mirror live tables and decide when to request inference.
+- **FlyMahjong** uses it as the authoritative table that deals, runs and settles its matches.
+- **FlyA models** plug into it as engines, so training and inference see the same rules and event stream.
 
 This repository is a public edition of the kernel, published primarily for academic study and reference.
 
@@ -123,6 +129,6 @@ Tenhou, Mahjong Soul and Riichi City are trademarks of their respective owners. 
 
 ## Copyright and license
 
-Copyright © 2026 Nashout. FlyA and FlyAgent are products of Nashout.
+Copyright © 2026 Nashout. FlyA, FlyAgent and FlyMahjong are products of Nashout.
 
 FlyTable is released under the [MIT License](LICENSE).
